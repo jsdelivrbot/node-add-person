@@ -13,8 +13,10 @@
 </div>
 <div class="container">
  <h2>Add Person to Database</h2>
-      
-   <form action="/" method="post">   
+      <%if (insert==1){%>
+          <h3 color="red">Person Added to the Database</h3>
+        <% } %>
+   <form action="/" method="post" id="formAdd">   
   <table class="table">
     <thead>
       <tr>
@@ -45,6 +47,15 @@
             
          </tr>
       <% } %>
+      <tr>
+          <td>
+            
+          </td>
+          <td>
+            <input type="submit" value="Add Person" id="formsubmit" class="btn btn-success" />
+          </td>
+          
+       </tr>
         </tbody>
       </table>
     </form>
@@ -53,4 +64,29 @@
 
 
 </body>
+<script>
+  $(function(){
+    $("#formsubmit").click(function(){
+      var error = false;
+      var msg = "";
+      if($("input[name='givenname']").val()=="")
+      {
+        error = true;
+        msg += "Please provide a Given Name\n";
+      }
+      if($("input[name='surname']").val()=="")
+      {
+        error = true;
+        msg += "Please provide a Sur Name\n";
+      }
+      if(error)
+      {
+        alert(msg);
+        return false;
+      }
+      $("#formAdd").submit();
+    });
+    
+  });
+  </script>
 </html>

@@ -22,14 +22,14 @@ module.exports = function (app){
             if (err) throw err;
             
             client
-              .query("select * from main limit 1")
+              .query("select * from people limit 1")
               .on('row', function(row) {
                 
                 results.push(row);
               })
               .on('end',()=>{
                     //res.send(results);
-                    res.render('./pages/index',{title:"Add Person",results:results});
+                    res.render('./pages/index',{title:"Add Person",results:results,insert:0});
                 });
              
           });
@@ -38,34 +38,32 @@ module.exports = function (app){
     //Add a User to the Database
     app.post('/', function(req, res) {
 
-        var results = [];
-        var search = req.body.search;
-        //check if there's search parameters else render blank page
-       if(search.length>0)
+        var keys = [];
+        var values = [];
+        for(var key in req.body)
         {
+            if(req.body[key]!="")
+                {
+                    keys.push(key);
+                    values.push(req.body[key]);
+                }
+        }
+        //res.send("insert into people ("+keys.join(",")+") values ('"+values.join("','")+"')");
+        
+       //Insert Record
+      
         pg.connect(connection.getDBConnStr, function(err, client) {
             if (err) throw err;
             client
-              .query("SELECT id,givenname,middleinitial,surname FROM main WHERE givenname ILIKE '%"+search+"%' or surname ILIKE '%"+search+"%'")
-              .on('row', function(row) {  
-                  //use On Row & End event since the output is cleaner then result callback funciton.  May not be the best technique until the 
-                  //PG library can be confirmed it's faster for large scale data
-                results.push(row);
-              })
+              .query("insert into people ("+keys.join(",")+") values ('"+values.join("','")+"')")
+              
               .on('end',()=>{
-                   //return search variable that a post was made.
-                    //Change title
-                    res.render('./pages/index',{title:"Search Results", results: results,search:1});
+
+                    res.render('./pages/index',{title:"Search Results", results:{},insert:1});
                 });
               
           });
-        }
-        else
-        {
-            //return search variable that a post was made.
-            //Change title
-            res.render('./pages/index',{title:"Search Results",results:{},search:1});
-        }
+        
         
     });
 
