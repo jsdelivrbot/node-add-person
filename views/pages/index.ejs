@@ -14,8 +14,9 @@
 <div class="container">
  <h2>Add Person to Database</h2>
       <%if (insert==1){%>
-          <h3 color="red">Person Added to the Database</h3>
-        <% } %>
+        <div class="alert alert-success" role="alert">The Person was added to the Database.</div>
+        <a href="/" class="btn btn-primary">Add New User</a>
+        <% } else{ %>
    <form action="/" method="post" id="formAdd">   
   <table class="table">
     <thead>
@@ -39,8 +40,12 @@
             </td>
             <td>
               <% if(key=="gender"){ %>
-                <select name="Gender"><option value="female">Female</option><option value="male">Male</option></select>
-                <% } else { %>
+                <select name="Gender"><option value="">--Select Gender--</option><option value="female">Female</option><option value="male">Male</option></select>
+                <% } 
+                else if (key=="Password"){ %>
+                  <input type="password" name="<%= key %>" />
+                <% }
+                else { %>
               <input type="text" name="<%= key %>" />
               <% } %>
             </td>
@@ -59,6 +64,7 @@
         </tbody>
       </table>
     </form>
+    <% } %>
 </div>
 
 
