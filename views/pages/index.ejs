@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+
+  <% include ../partials/nav.ejs %>
+
+<div class="jumbotron text-center">
+
+</div>
+<div class="container">
+ <h2>Add Person to Database</h2>
+      
+   <form action="/" method="post">   
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          Label
+        </th>
+        <th>
+            Value
+          </th>
+          
+      </tr>
+    </thead>
+    <tbody>
+      <% for (var key in results[0]){ %>
+         <tr>
+            <td>
+              <%= key.charAt(0).toUpperCase()+key.slice(1); %>
+            </td>
+            <td>
+              <%= results[0][key] %>
+            </td>
+            
+         </tr>
+      <% } %>
+        </tbody>
+      </table>
+    </form>
+</div>
+
+
+
+</body>
+</html>
