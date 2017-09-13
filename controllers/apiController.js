@@ -16,24 +16,24 @@ module.exports = function (app){
     //Home Page
     app.get('/', function(req, res) {
         //Get Table schema quick and dirty way for POSTGRES
+        //Could use select column_name, data_type, character_maximum_length from INFORMATION_SCHEMA.COLUMNS where table_name = ''
         var results = [];
         pg.connect(connection.getDBConnStr, function(err, client) {
             if (err) throw err;
             
-          
             client
-              .query('SELECT * FROM main LIMIT 1 ORDER BY id ASC')
+              .query("select * from main limit 1")
               .on('row', function(row) {
                 
                 results.push(row);
               })
               .on('end',()=>{
-                  
+                    //res.send(results);
                     res.render('./pages/index',{title:"Add Person",results:results});
                 });
              
           });
-        res.render('./pages/index',{title:"Search", results:{},search:0});
+        
     });
     //Add a User to the Database
     app.post('/', function(req, res) {

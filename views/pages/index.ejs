@@ -28,13 +28,19 @@
       </tr>
     </thead>
     <tbody>
-      <% for (var key in results[0]){ %>
+      <% for (var key in results[0]){ 
+        if(key=="id") continue; %>
+       
          <tr>
             <td>
               <%= key.charAt(0).toUpperCase()+key.slice(1); %>
             </td>
             <td>
-              <%= results[0][key] %>
+              <% if(key=="gender"){ %>
+                <select name="Gender"><option value="female">Female</option><option value="male">Male</option></select>
+                <% } else { %>
+              <input type="text" name="<%= key %>" />
+              <% } %>
             </td>
             
          </tr>
